@@ -1,7 +1,7 @@
 # Étape de construction
 FROM node:lts  
 
-# Définition du répertoire de travail
+# Définition du répertoire de travail dans le conteneur
 WORKDIR / .
 
 # Copie de tous les fichiers dont les dépendances  
