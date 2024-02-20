@@ -1,5 +1,5 @@
 # Étape de construction
-FROM php:8.3-fpm AS builder
+FROM php:8.3-fpm 
 
 WORKDIR /app
 
