@@ -1,11 +1,11 @@
 # Étape de construction
-FROM node:lts  
+FROM node:lts-alpine
 
 # Définition du répertoire de travail dans le conteneur
-WORKDIR / .
+WORKDIR / app
 
 # Copie de tous les fichiers dont les dépendances  
-COPY / .
+COPY . .
 RUN npm install
 
 # Construction de l'application
