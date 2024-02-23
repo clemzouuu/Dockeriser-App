@@ -1,22 +1,22 @@
-# Étape de construction
-FROM php:8.3-fpm 
+FROM php:8.3-fpm
 
-WORKDIR /app
+COPY . /var/www/html/
+
+WORKDIR /var/www/html/
 
 # Installation des dépendances PHP
 RUN apt-get update && apt-get install -y \
     unzip \
-    libpq-dev \
-    && docker-php-ext-install pdo pdo_pgsql
+    libpq-dev 
 
 # Installation de Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-COPY . .
+# Définition de la variable d'environnement COMPOSER_ALLOW_SUPERUSER
+ENV COMPOSER_ALLOW_SUPERUSER 1
 
+RUN composer install --no-dev --optimize-autoloader
 
-# Changer le propriétaire des fichiers pour www-data
-RUN chown -R www-data:www-data /app
+RUN php bin/console asset-map:compile
 
-# Commande par défaut pour exécuter PHP-FPM en premier plan
-CMD ["php-fpm"]
+RUN php bin/console cache:clear --env=prod
